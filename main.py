@@ -2,6 +2,7 @@ class Uhelang():
     def __init__(self):
         self.var = [0]*256
         self.line_index = 0
+        self.output = ""
 
     def get_cmd(self,code):
         if "으" in code and "헤" in code:
@@ -60,11 +61,12 @@ class Uhelang():
             if (p1 != 0):
                 self.line_index = p2-2
         elif cmd == "print":
-            print(parameter,end="")
+            self.output += f"{parameter}"
         elif cmd == "printascii":
-            print(chr(parameter),end="")
+            self.output += chr(parameter)
             
     def compile(self,code:list):
+        print("입력:")
         while (self.line_index < len(code)):
             self.line_compile(code[self.line_index])
             
@@ -72,10 +74,13 @@ class Uhelang():
                 break
             
             self.line_index+=1
+        
+        print("출력:")
+        print(self.output)
 
 
 compiler = Uhelang()
 
-with open('ascii.uhe', 'r', encoding="utf-8") as f:
+with open('difference.uhe', 'r', encoding="utf-8") as f:
     lines = f.read().splitlines()
     compiler.compile(lines)
